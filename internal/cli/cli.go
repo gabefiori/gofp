@@ -51,16 +51,16 @@ func Run() error {
 		Action: func(ctx *cli.Context) error {
 			cfg, err := config.Load(cfgPath)
 
+			if err != nil {
+				return err
+			}
+
 			cfg.Measure = measure
 
 			if ctx.IsSet("expand") {
 				cfg.ExpandOutput = &expandResult
 			} else if cfg.ExpandOutput == nil {
 				cfg.ExpandOutput = &expandResult
-			}
-
-			if err != nil {
-				return err
 			}
 
 			return app.Run(cfg)
