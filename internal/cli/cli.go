@@ -11,6 +11,7 @@ import (
 
 func Run() error {
 	var cfgPath string
+	var expandResult bool
 
 	app := &cli.App{
 		Name:        "Find Project",
@@ -26,9 +27,22 @@ func Run() error {
 				Value:       "~/.config/gofp/config.json",
 				Destination: &cfgPath,
 			},
+			&cli.BoolFlag{
+				Name:        "expand",
+				Aliases:     []string{"e"},
+				Usage:       "Expand result",
+				Value:       true,
+				Destination: &expandResult,
+			},
 		},
 		Action: func(ctx *cli.Context) error {
 			cfg, err := config.Load(cfgPath)
+
+			if ctx.IsSet("expand") {
+				cfg.ExpandResult = &expandResult
+			} else if cfg.ExpandResult == nil {
+				cfg.ExpandResult = &expandResult
+			}
 
 			if err != nil {
 				return err

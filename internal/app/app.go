@@ -18,6 +18,10 @@ func Run(cfg *config.Config) error {
 		return err
 	}
 
+	if !*cfg.ExpandResult {
+		home = "~"
+	}
+
 	outputChan := make(chan string)
 
 	go finder.Run(cfg.Sources, outputChan)
