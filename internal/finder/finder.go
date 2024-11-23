@@ -4,20 +4,18 @@ import (
 	"log"
 	"strings"
 	"sync"
-
-	"github.com/mitchellh/go-homedir"
 )
 
-func Run(sources []Source, output chan string) {
-	home, err := homedir.Dir()
+type FinderOpts struct {
+	Sources    []Source
+	OutputChan chan string
+	HomeDir    string
+}
 
-	if err != nil {
-		log.Fatal(err)
-	}
-
+func Run(opts *FinderOpts) {
 	var wg sync.WaitGroup
 
-	for _, source := range sources {
+	for _, source := range opts.Sources {
 		wg.Add(1)
 
 		go func(s Source) {
@@ -30,11 +28,11 @@ func Run(sources []Source, output chan string) {
 			}
 
 			for _, p := range paths {
-				output <- "~" + strings.TrimPrefix(p, home)
+				opts.OutputChan <- "~" + strings.TrimPrefix(p, opts.HomeDir)
 			}
 		}(source)
 	}
 
 	wg.Wait()
-	close(output)
+	close(opts.OutputChan)
 }

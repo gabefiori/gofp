@@ -28,9 +28,9 @@ func Run() error {
 				Destination: &cfgPath,
 			},
 			&cli.BoolFlag{
-				Name:        "expand",
-				Aliases:     []string{"e"},
-				Usage:       "Expand result",
+				Name:        "expand-output",
+				Aliases:     []string{"eo"},
+				Usage:       "Expand output",
 				Value:       true,
 				Destination: &expandResult,
 			},
@@ -39,9 +39,9 @@ func Run() error {
 			cfg, err := config.Load(cfgPath)
 
 			if ctx.IsSet("expand") {
-				cfg.ExpandResult = &expandResult
-			} else if cfg.ExpandResult == nil {
-				cfg.ExpandResult = &expandResult
+				cfg.ExpandOutput = &expandResult
+			} else if cfg.ExpandOutput == nil {
+				cfg.ExpandOutput = &expandResult
 			}
 
 			if err != nil {

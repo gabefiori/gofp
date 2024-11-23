@@ -18,13 +18,17 @@ func Run(cfg *config.Config) error {
 		return err
 	}
 
-	if !*cfg.ExpandResult {
-		home = "~"
-	}
-
 	outputChan := make(chan string)
 
-	go finder.Run(cfg.Sources, outputChan)
+	go finder.Run(&finder.FinderOpts{
+		Sources:    cfg.Sources,
+		OutputChan: outputChan,
+		HomeDir:    home,
+	})
+
+	if !*cfg.ExpandOutput {
+		home = "~"
+	}
 
 	result, err := ui.Run(outputChan)
 
@@ -33,7 +37,7 @@ func Run(cfg *config.Config) error {
 	}
 
 	if result != "" {
-		_, err = io.Copy(os.Stdout, bytes.NewBufferString(home+result))
+		_, err = io.Copy(os.Stdout, bytes.NewBufferString(home+result[1:]))
 	}
 
 	return err

@@ -24,11 +24,11 @@ Create a configuration file at `~/.config/gofp/config.json`:
     }
   ],
 
-  "expand_result": true
+  "expand_output": true
 }
 ```
 
-> **Note:** `"expand_result"` is optional and defaults to `true`.
+> **Note:** `"expand_output"` is optional and defaults to `true`.
 
 ## Using with cd
 

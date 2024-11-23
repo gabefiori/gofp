@@ -10,8 +10,7 @@ func Run(inputChan chan string) (string, error) {
 
 	go func() {
 		for out := range outputChan {
-			// Skip the first character "~".
-			resultChan <- out[1:]
+			resultChan <- out
 		}
 
 		close(resultChan)

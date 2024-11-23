@@ -10,7 +10,7 @@ import (
 
 type Config struct {
 	Sources      []finder.Source `json:"sources"`
-	ExpandResult *bool           `json:"expand_result"`
+	ExpandOutput *bool           `json:"expand_output"`
 }
 
 func Load(path string) (*Config, error) {
