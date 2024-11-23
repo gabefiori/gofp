@@ -61,10 +61,23 @@ func TestFind(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			source := Source{tempDir, tt.depth}
+			source := Source{Path: tempDir, Depth: tt.depth}
+			outputChan := make(chan string)
 
-			paths, err := source.Find()
-			assert.NoError(t, err)
+			go func() {
+				defer close(outputChan)
+				err := source.Find(outputChan, func(s string) string {
+					return s
+				})
+
+				assert.NoError(t, err)
+			}()
+
+			var paths []string
+
+			for path := range outputChan {
+				paths = append(paths, path)
+			}
 
 			for _, expected := range tt.expected {
 				assert.Contains(t, paths, expected)
