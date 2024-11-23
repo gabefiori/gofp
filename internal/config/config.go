@@ -11,6 +11,7 @@ import (
 type Config struct {
 	Sources      []finder.Source `json:"sources"`
 	ExpandOutput *bool           `json:"expand_output"`
+	Measure      bool
 }
 
 func Load(path string) (*Config, error) {

@@ -21,15 +21,14 @@ func Run(opts *FinderOpts) {
 		go func(s Source) {
 			defer wg.Done()
 
-			paths, err := s.Find()
+			err := s.Find(opts.OutputChan, func(p string) string {
+				return "~" + strings.TrimPrefix(p, opts.HomeDir)
+			})
 
 			if err != nil {
 				log.Fatal(err)
 			}
 
-			for _, p := range paths {
-				opts.OutputChan <- "~" + strings.TrimPrefix(p, opts.HomeDir)
-			}
 		}(source)
 	}
 

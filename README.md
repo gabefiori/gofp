@@ -30,6 +30,14 @@ Create a configuration file at `~/.config/gofp/config.json`:
 
 > **Note:** `"expand_output"` is optional and defaults to `true`.
 
+## CLI Options
+```sh
+--config file, -c file  Load configuration from file (default: "~/.config/gofp/config.json")
+--expand-output, --eo   Expand output (default: true)
+--measure, -m           Measure performance (time taken and number of items) (default: false)
+--help, -h              show help
+```
+
 ## Using with cd
 
 ### bash/zsh

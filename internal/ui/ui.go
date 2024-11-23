@@ -4,6 +4,10 @@ import (
 	fzf "github.com/junegunn/fzf/src"
 )
 
+// Run executes the fzf (fuzzy finder) command using the provided input channel.
+//
+// For more information, check:
+// https://junegunn.github.io/fzf/tips/using-fzf-in-your-program/
 func Run(inputChan chan string) (string, error) {
 	outputChan := make(chan string)
 	resultChan := make(chan string)

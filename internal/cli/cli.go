@@ -9,9 +9,13 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+// Run initializes and executes the command-line interface (CLI) application.
 func Run() error {
-	var cfgPath string
-	var expandResult bool
+	var (
+		cfgPath      string
+		expandResult bool
+		measure      bool
+	)
 
 	app := &cli.App{
 		Name:        "Find Project",
@@ -19,6 +23,7 @@ func Run() error {
 		Usage:       "Find projects",
 		Description: "A simple tool for quickly finding projects.",
 		Version:     getVersion(),
+
 		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name:        "config",
@@ -34,9 +39,19 @@ func Run() error {
 				Value:       true,
 				Destination: &expandResult,
 			},
+			&cli.BoolFlag{
+				Name:        "measure",
+				Aliases:     []string{"m"},
+				Usage:       "Measure performance (time taken and number of items)",
+				Value:       false,
+				Destination: &measure,
+			},
 		},
+
 		Action: func(ctx *cli.Context) error {
 			cfg, err := config.Load(cfgPath)
+
+			cfg.Measure = measure
 
 			if ctx.IsSet("expand") {
 				cfg.ExpandOutput = &expandResult
