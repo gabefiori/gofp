@@ -1,6 +1,8 @@
 # gofp
 A simple tool for quickly finding projects.
 
+<img alt="Demo" src="examples/demo.gif" width="600" />
+
 ## Installation
 ```sh
 go install github.com/gabefiori/gofp/cmd/gofp@latest
@@ -20,16 +22,18 @@ Create a configuration file at `~/.config/gofp/config.json`:
       "path": "/home/you/your_other/path",
       "depth": 3
     }
-  ]
+  ],
+
+  "expand_result": true
 }
 ```
 
-## Integrate with your shell
-The shell integration is necessary because, due to POSIX standards, a program cannot change the current working directory of the shell that invoked it.
-When you run a command in a shell, it operates in its own process, and any changes to the working directory made by that process do not affect the parent shell.
+> **Note:** `"expand_result"` is optional and defaults to `true`.
+
+## Using with cd
 
 ### bash/zsh
-To set up the integration in bash or zsh, add the following function to your `.bashrc` or `.zshrc` file:
+To use `gofp` with the `cd` command, you can add the following function to your `.bashrc` or `.zshrc` file:
 
 ```sh
 function fp() {
@@ -37,11 +41,31 @@ function fp() {
 }
 ```
 
+After adding this function, make sure to reload your shell configuration by running:
+
+```sh
+source ~/.bashrc  # For bash
+# or
+source ~/.zshrc   # For zsh
+```
+
 ### fish
-For users of the Fish shell, you can achieve the same functionality by adding the following function to your `config.fish` file:
+For Fish shell users, you can define the function in your configuration file (usually `~/.config/fish/config.fish`) as follows:
 
 ```fish
 function fp
     cd (gofp)
 end
+```
+After adding this function, you can either restart your terminal or run `source ~/.config/fish/config.fish` to apply the changes
+
+## Using with tmux
+You can utilize this [script](/scripts/gofp-tmux.sh), which enables you to easily attach to or switch between Tmux sessions using the gofp command for selection.
+
+To set it up, you can:
+```sh
+sudo wget -O /usr/local/bin/tms https://raw.githubusercontent.com/gaberiori/fp/scripts/gofp-tmux.sh
+sudo chmod +x /usr/local/bin/tms
+
+tms
 ```
