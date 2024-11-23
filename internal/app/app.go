@@ -51,7 +51,7 @@ func Run(cfg *config.Config) error {
 		}
 
 		measureEnd := time.Since(measureStart).String()
-		msg := fmt.Sprintf("Took %s to find %d projects", measureEnd, count)
+		msg := fmt.Sprintf("Took %s (%d projects)", measureEnd, count)
 
 		if _, err := buf.WriteString(msg); err != nil {
 			return err

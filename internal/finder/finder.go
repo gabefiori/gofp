@@ -12,6 +12,10 @@ type FinderOpts struct {
 	HomeDir    string
 }
 
+// Run executes the package finder using the provided options.
+// Any error encountered within this function is considered fatal and will terminate the program.
+//
+// Each source runs its [Find] method in a separate goroutine.
 func Run(opts *FinderOpts) {
 	var wg sync.WaitGroup
 
