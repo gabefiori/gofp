@@ -8,12 +8,20 @@ import (
 	"github.com/mitchellh/go-homedir"
 )
 
+// Config represents the configuration structure for the application.
 type Config struct {
-	Sources      []finder.Source `json:"sources"`
-	ExpandOutput *bool           `json:"expand_output"`
-	Measure      bool
+	// List of sources to be used by the finder
+	Sources []finder.Source `json:"sources"`
+
+	// Optional flag to indicate if output should be expanded
+	// Useful to hide the user's home directory
+	ExpandOutput *bool `json:"expand_output"`
+
+	// Flag to indicate if measurement should be performed
+	Measure bool
 }
 
+// Load reads the configuration from a JSON file at the specified path.
 func Load(path string) (*Config, error) {
 	path, err := homedir.Expand(path)
 
@@ -26,6 +34,8 @@ func Load(path string) (*Config, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	defer file.Close()
 
 	var cfg Config
 
