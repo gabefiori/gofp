@@ -64,8 +64,6 @@ You can utilize this [script](/scripts/gofp-tmux.sh), which enables you to easil
 
 To set it up, you can:
 ```sh
-sudo wget -O /usr/local/bin/tms https://raw.githubusercontent.com/gaberiori/fp/scripts/gofp-tmux.sh
+sudo wget -O /usr/local/bin/tms https://raw.githubusercontent.com/gabefiori/gofp/refs/heads/main/scripts/gofp-tmux.sh
 sudo chmod +x /usr/local/bin/tms
-
-tms
 ```
