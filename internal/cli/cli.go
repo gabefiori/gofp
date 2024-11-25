@@ -12,9 +12,10 @@ import (
 // Run initializes and executes the command-line interface (CLI) application.
 func Run() error {
 	var (
-		cfgPath      string
+		path         string
 		expandResult bool
 		measure      bool
+		selector     string
 	)
 
 	app := &cli.App{
@@ -30,7 +31,15 @@ func Run() error {
 				Aliases:     []string{"c"},
 				Usage:       "Load configuration from `file`",
 				Value:       "~/.config/gofp/config.json",
-				Destination: &cfgPath,
+				TakesFile:   true,
+				Destination: &path,
+			},
+			&cli.StringFlag{
+				Name:        "selector",
+				Aliases:     []string{"s"},
+				Usage:       "Selector for displaying the projects (available: \"fzf\", \"fzy\")",
+				Value:       "fzf",
+				Destination: &selector,
 			},
 			&cli.BoolFlag{
 				Name:        "expand-output",
@@ -49,18 +58,23 @@ func Run() error {
 		},
 
 		Action: func(ctx *cli.Context) error {
-			cfg, err := config.Load(cfgPath)
+			params := &config.LoadParams{
+				Path:    path,
+				Measure: measure,
+			}
+
+			if ctx.IsSet("expand") {
+				params.ExpandOutput = expandResult
+			}
+
+			if ctx.IsSet("selector") {
+				params.Selector = selector
+			}
+
+			cfg, err := config.Load(params)
 
 			if err != nil {
 				return err
-			}
-
-			cfg.Measure = measure
-
-			if ctx.IsSet("expand") {
-				cfg.ExpandOutput = &expandResult
-			} else if cfg.ExpandOutput == nil {
-				cfg.ExpandOutput = &expandResult
 			}
 
 			return app.Run(cfg)

@@ -13,17 +13,27 @@ type Config struct {
 	// List of sources to be used by the finder
 	Sources []finder.Source `json:"sources"`
 
-	// Optional flag to indicate if output should be expanded
+	// Flag to indicate if output should be expanded
 	// Useful to hide the user's home directory
-	ExpandOutput *bool `json:"expand_output"`
+	ExpandOutput bool `json:"expand_output"`
 
 	// Flag to indicate if measurement should be performed
 	Measure bool
+
+	// Selector for displaying the projects
+	Selector string `json:"selector"`
+}
+
+type LoadParams struct {
+	Path         string
+	Measure      bool
+	ExpandOutput bool
+	Selector     string
 }
 
 // Load reads the configuration from a JSON file at the specified path.
-func Load(path string) (*Config, error) {
-	path, err := homedir.Expand(path)
+func Load(params *LoadParams) (*Config, error) {
+	path, err := homedir.Expand(params.Path)
 
 	if err != nil {
 		return nil, err
@@ -40,8 +50,19 @@ func Load(path string) (*Config, error) {
 	var cfg Config
 
 	decoder := json.NewDecoder(file)
+
 	if err := decoder.Decode(&cfg); err != nil {
 		return nil, err
+	}
+
+	cfg.Measure = params.Measure
+
+	if params.Selector != "" {
+		cfg.Selector = params.Selector
+	}
+
+	if cfg.Selector == "" {
+		cfg.Selector = "fzf"
 	}
 
 	return &cfg, nil

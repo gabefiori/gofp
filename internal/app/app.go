@@ -37,7 +37,7 @@ func Run(cfg *config.Config) error {
 
 	// If output expansion is not enabled, set the home directory to "~".
 	// This is useful for hiding the user's home directory.
-	if !*cfg.ExpandOutput {
+	if !cfg.ExpandOutput {
 		home = "~"
 	}
 
@@ -61,8 +61,8 @@ func Run(cfg *config.Config) error {
 		return err
 	}
 
-	fzf := selector.NewFzf(nil)
-	result, err := fzf.Run(outputChan)
+	s := selector.New(cfg.Selector, nil)
+	result, err := s.Run(outputChan)
 
 	// An empty result indicates that the selector was canceled.
 	if err != nil || result == "" {

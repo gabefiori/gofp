@@ -63,6 +63,8 @@ Create a configuration file at `~/.config/gofp/config.json`:
 
 ```json
 {
+  "expand_output": true,
+  "selector": "fzf",
   "sources": [
     {
       "path": "~/your/path",
@@ -72,18 +74,17 @@ Create a configuration file at `~/.config/gofp/config.json`:
       "path": "/home/you/your_other/path",
       "depth": 3
     }
-  ],
-
-  "expand_output": true
+  ]
 }
 ```
-
 > **Note:** `"expand_output"` is optional and defaults to `true`.
+> **Note:** `"selector"` is optional and defaults to `fzf`. Available options are `fzf` and `fzy`.
 
 ## CLI Options
 ```sh
---config file, -c file  Load configuration from file (default: "~/.config/gofp/config.json")
---expand-output, --eo   Expand output (default: true)
---measure, -m           Measure performance (time taken and number of items) (default: false)
---help, -h              show help
+--config file, -c file      Load configuration from file (default: "~/.config/gofp/config.json")
+--selector value, -s value  Selector for displaying the projects (available: "fzf", "fzy") (default: "fzf")
+--expand-output, --eo       Expand output (default: true)
+--measure, -m               Measure performance (time taken and number of items) (default: false)
+--help, -h                  show help
 ```
