@@ -77,8 +77,9 @@ Create a configuration file at `~/.config/gofp/config.json`:
   ]
 }
 ```
-> **Note:** `"expand_output"` is optional and defaults to `true`.
-> **Note:** `"selector"` is optional and defaults to `fzf`. Available options are `fzf` and `fzy`.
+
+> - `"expand_output"` is optional and defaults to `true`. 
+> - `"selector"` is optional and defaults to `fzf`. Available options are `fzf` and `fzy`.
 
 ## CLI Options
 ```sh
