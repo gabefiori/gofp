@@ -9,7 +9,7 @@ import (
 
 	"github.com/gabefiori/gofp/internal/config"
 	"github.com/gabefiori/gofp/internal/finder"
-	"github.com/gabefiori/gofp/internal/ui"
+	"github.com/gabefiori/gofp/internal/selector"
 	"github.com/mitchellh/go-homedir"
 )
 
@@ -23,7 +23,7 @@ func Run(cfg *config.Config) error {
 
 	// Channel to receive output (string) from the finder.
 	//
-	// This channel is also passed to fzf to populate its input.
+	// This channel is also passed to the selector to populate its input.
 	outputChan := make(chan string)
 
 	measureStart := time.Now()
@@ -36,7 +36,7 @@ func Run(cfg *config.Config) error {
 	})
 
 	// If output expansion is not enabled, set the home directory to "~".
-	// This is useful to hide the user's home directory.
+	// This is useful for hiding the user's home directory.
 	if !*cfg.ExpandOutput {
 		home = "~"
 	}
@@ -61,15 +61,16 @@ func Run(cfg *config.Config) error {
 		return err
 	}
 
-	result, err := ui.Run(outputChan)
+	fzf := selector.NewFzf(nil)
+	result, err := fzf.Run(outputChan)
 
-	// An empty result means that fzf was canceled.
+	// An empty result indicates that the selector was canceled.
 	if err != nil || result == "" {
 		return err
 	}
 
 	// The first character ("~") of the result is skipped.
-	// It's only used for display inside fzf.
+	// It's only used for display inside the selector.
 	//
 	// The expanded version of the result must be used;
 	// otherwise, it will not be able to be consumed by other programs.
