@@ -8,6 +8,56 @@ A simple tool for quickly finding projects.
 go install github.com/gabefiori/gofp/cmd/gofp@latest
 ```
 
+Once the installation is complete, you can use the `gofp` command along with other commands in your shell.
+
+### Examples with `cd`:
+
+<details>
+<summary>Bash</summary>
+
+> Add to your `~/.bashrc` file:
+>
+> ```sh
+> alias fp='cd "$(gofp)"'
+> ```
+
+</details>
+
+<details>
+<summary>Zsh</summary>
+
+> Add to your `~/.zshrc` file:
+>
+> ```sh
+> alias fp='cd "$(gofp)"'
+> ```
+
+</details>
+
+<details>
+<summary>Fish</summary>
+
+> Add to your `~/config.fish` file:
+>
+> ```fish
+> alias fp "cd (gofp)"
+> ```
+
+</details>
+
+### Using with tmux
+You can utilize this [script](/scripts/gofp-tmux.sh), which enables you to easily attach to or switch between Tmux sessions using the `gofp` command for selection.
+
+<details>
+<summary>Install</summary>
+
+>```sh
+>sudo wget -O /usr/local/bin/tms https://raw.githubusercontent.com/gabefiori/gofp/refs/heads/main/scripts/gofp-tmux.sh
+>sudo chmod +x /usr/local/bin/tms
+>```
+
+</details>
+
 ## Configuration
 Create a configuration file at `~/.config/gofp/config.json`:
 
@@ -36,42 +86,4 @@ Create a configuration file at `~/.config/gofp/config.json`:
 --expand-output, --eo   Expand output (default: true)
 --measure, -m           Measure performance (time taken and number of items) (default: false)
 --help, -h              show help
-```
-
-## Using with cd
-
-### bash/zsh
-To use `gofp` with the `cd` command, you can add the following function to your `.bashrc` or `.zshrc` file:
-
-```sh
-function fp() {
-    cd "$(gofp)"
-}
-```
-
-After adding this function, make sure to reload your shell configuration by running:
-
-```sh
-source ~/.bashrc  # For bash
-# or
-source ~/.zshrc   # For zsh
-```
-
-### fish
-For Fish shell users, you can define the function in your configuration file (usually `~/.config/fish/config.fish`) as follows:
-
-```fish
-function fp
-    cd (gofp)
-end
-```
-After adding this function, you can either restart your terminal or run `source ~/.config/fish/config.fish` to apply the changes
-
-## Using with tmux
-You can utilize this [script](/scripts/gofp-tmux.sh), which enables you to easily attach to or switch between Tmux sessions using the gofp command for selection.
-
-To set it up, you can:
-```sh
-sudo wget -O /usr/local/bin/tms https://raw.githubusercontent.com/gabefiori/gofp/refs/heads/main/scripts/gofp-tmux.sh
-sudo chmod +x /usr/local/bin/tms
 ```
